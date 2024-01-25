@@ -110,10 +110,11 @@ class Particles(ParticlesBase):
             void LocalParticle_add_to_energy(LocalParticle* part, double delta_energy, int pz_only ){
                 double ptau = LocalParticle_get_ptau(part);
                 double const p0c = LocalParticle_get_p0c(part);
-                double const mass_ratio = LocalParticle_get_mass_ratio(part);
+                double const charge_ratio = LocalParticle_get_charge_ratio(part);
+                double const chi = LocalParticle_get_chi(part);
+                mass_ratio = chi / charge_ratio;
 
                 ptau += delta_energy/p0c * mass_ratio;
-
 
                 double const old_rpp = LocalParticle_get_rpp(part);
 

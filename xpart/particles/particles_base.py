@@ -1241,9 +1241,31 @@ class ParticlesBase(xo.HybridClass):
 
     @property
     def energy(self):
+
         energy = self.energy0 + self.ptau * self.p0c  # eV
         return self._buffer.context.linked_array_type.from_array(
             energy, mode='readonly',
+            container=self)
+
+    @property
+    def mass_ratio(self):
+        out = self.chi / self.charge_ratio
+        return self._buffer.context.linked_array_type.from_array(
+            out, mode='readonly',
+            container=self)
+
+    @property
+    def mass(self):
+        out = self.mass_ratio / self.mass0
+        return self._buffer.context.linked_array_type.from_array(
+            out, mode='readonly',
+            container=self)
+
+    @property
+    def charge(self):
+        out = self.charge_ratio * self.q0
+        return self._buffer.context.linked_array_type.from_array(
+            out, mode='readonly',
             container=self)
 
     @property
@@ -1258,25 +1280,8 @@ class ParticlesBase(xo.HybridClass):
         Add `delta_energy` to the `energy` of the particles object. `delta`,
         'ptau', `rvv` and `rpp` are updated accordingly.
         """
-        beta0 = self.beta0.copy()
-        delta_beta0 = self.delta * beta0
 
-        ptau_beta0 = (
-                delta_energy / self.energy0.copy() +
-                (delta_beta0 * delta_beta0 + 2.0 * delta_beta0 * beta0
-                 + 1.) ** 0.5 - 1.)
-
-        ptau = ptau_beta0 / beta0
-        delta = (ptau * ptau + 2. * ptau / beta0 + 1) ** 0.5 - 1
-
-        one_plus_delta = delta + 1.
-        rvv = one_plus_delta / (1. + ptau_beta0)
-
-        self._delta = delta
-        self._ptau = ptau
-
-        self._rvv = rvv
-        self._rpp = 1. / one_plus_delta
+        self.ptau += delta_energy / self.p0c * self.mass_ratio
 
     def set_particle(self, index, set_scalar_vars=False, **kwargs):
         raise NotImplementedError('This functionality has been removed')
