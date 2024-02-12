@@ -1242,7 +1242,7 @@ class ParticlesBase(xo.HybridClass):
     @property
     def energy(self):
 
-        energy = self.energy0 + self.ptau * self.p0c  # eV
+        energy = (self.energy0 + self.ptau * self.p0c) / self.mass_ratio  # eV
         return self._buffer.context.linked_array_type.from_array(
             energy, mode='readonly',
             container=self)
