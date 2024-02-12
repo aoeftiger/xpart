@@ -112,7 +112,7 @@ class Particles(ParticlesBase):
                 double const p0c = LocalParticle_get_p0c(part);
                 double const charge_ratio = LocalParticle_get_charge_ratio(part);
                 double const chi = LocalParticle_get_chi(part);
-                mass_ratio = chi / charge_ratio;
+                double const mass_ratio = chi / charge_ratio;
 
                 ptau += delta_energy/p0c * mass_ratio;
 
