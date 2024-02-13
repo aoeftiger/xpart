@@ -1241,22 +1241,21 @@ class ParticlesBase(xo.HybridClass):
 
     @property
     def energy(self):
-
-        energy = (self.energy0 + self.ptau * self.p0c) / self.mass_ratio  # eV
+        energy = (self.energy0 + self.ptau * self.p0c)  * self.mass_ratio  # eV
         return self._buffer.context.linked_array_type.from_array(
             energy, mode='readonly',
             container=self)
 
     @property
     def mass_ratio(self):
-        out = self.chi / self.charge_ratio
+        out = self.charge_ratio / self.chi
         return self._buffer.context.linked_array_type.from_array(
             out, mode='readonly',
             container=self)
 
     @property
     def mass(self):
-        out = self.mass_ratio / self.mass0
+        out = self.mass_ratio * self.mass0
         return self._buffer.context.linked_array_type.from_array(
             out, mode='readonly',
             container=self)
