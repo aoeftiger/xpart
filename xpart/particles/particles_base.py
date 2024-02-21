@@ -566,7 +566,7 @@ class ParticlesBase(xo.HybridClass):
         """
 
         import xtrack as xt
-        out_dct = self.to_dict(compact=True)
+        out_dct = self.to_dict(compact=False)
 
         for kk in list(out_dct.keys()):
             if not hasattr(out_dct[kk], '__len__'):
